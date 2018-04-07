@@ -1,10 +1,12 @@
 from input import input
-from mat_finder import test
+from mat_finder import finder
+from window import window
 
 def main():
     input.init()
-    input.testMove()
-    test.hello()
+    # window.displayBDO()
+    # input.testMove()
+    #finder.detectionTest()
 
     print("Hello")
 

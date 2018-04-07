@@ -1,6 +1,6 @@
 import pyautogui
 
-from input import coordinates
+import coordinates
 
 MOVE_SPEED = 0.5
 
