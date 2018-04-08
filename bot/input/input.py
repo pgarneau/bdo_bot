@@ -4,11 +4,12 @@ import pyautogui
 
 import coordinates
 import keyboard
+from finder import finder
 import mouse
 
 
 def init():
-    pyautogui.PAUSE = 0.8
+    pyautogui.PAUSE = 0.5
     
 def getCoords():
     while True:
@@ -36,25 +37,25 @@ def openWarehouse():
     keyboard.press('esc')
     keyboard.press('esc')
     keyboard.press('r')
-    mouse.move(coordinates.WAREHOUSE)
+    mouse.move(finder.findCoords('warehouse'))
     mouse.leftClick()
 
 def openProcessing():
-    mouse.move(coordinates.PROCESS)
+    mouse.move(finder.findCoords('process'))
     mouse.leftClick()
 
 def chop(coords):
-    mouse.move(coordinates.CHOPPING)
+    mouse.move(finder.findCoords('chopping'))
     mouse.leftClick()
 
     mouse.move(coords)
     mouse.rightClick()
 
-    mouse.move(coordinates.START_PROCESS)
+    mouse.move(finder.findCoords('process_start'))
     mouse.leftClick()
 
 def heat(coords):
-    mouse.move(coordinates.HEATING)
+    mouse.move(finder.findCoords('heating'))
     mouse.leftClick()
 
     if type(coords) is list:
@@ -66,5 +67,5 @@ def heat(coords):
         mouse.move(coords)
         mouse.rightClick()
 
-    mouse.move(coordinates.START_PROCESS)
+    mouse.move(finder.findCoords('process_start'))
     mouse.leftClick()

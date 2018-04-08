@@ -59,6 +59,6 @@ def ReleaseKey(hexKeyCode):
 def press(key):
     hexCode = keys[key]
     PressKey(hexCode)
-    time.sleep(0.3)
+    time.sleep(0.2)
     ReleaseKey(hexCode)
-    time.sleep(0.3)
+    time.sleep(0.2)
