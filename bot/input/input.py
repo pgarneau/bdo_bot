@@ -17,6 +17,10 @@ def getCoords():
         print(positionStr + '\n')
         time.sleep(0.5)
 
+def keepActive():
+    mouse.relativeMove(5, 0)
+    mouse.relativeMove(-5, 0)
+
 def store():
     mouse.move(coordinates.INV_SLOT_1)
     mouse.rightClick()
@@ -48,8 +52,6 @@ def chop(coords):
 
     mouse.move(coordinates.START_PROCESS)
     mouse.leftClick()
-    time.sleep(3)
-    keyboard.press('space')
 
 def heat(*args):
     mouse.move(coordinates.HEATING)
@@ -61,5 +63,3 @@ def heat(*args):
 
     mouse.move(coordinates.START_PROCESS)
     mouse.leftClick()
-    time.sleep(3)
-    keyboard.press('space')

@@ -1,3 +1,5 @@
+import time
+
 from input import input
 from finder import finder
 
@@ -22,6 +24,10 @@ def start():
             print("PROCESSING: " + element)
             coords = finder.findCoords(element)
             input.heat(coords)
+
+        while (finder.isProcessing()):
+            input.keepActive()
+            time.sleep(5)
 
         input.openWarehouse()
         input.store()

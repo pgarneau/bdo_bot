@@ -8,6 +8,7 @@ def main():
     window.displayBDO()
     #finder.detectionTest()
     process.start()
+    #input.getCoords()
 
     print("Hello")
 

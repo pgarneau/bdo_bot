@@ -12,3 +12,6 @@ def leftClick():
 
 def move(coords):
     pyautogui.moveTo(coords[0], coords[1], MOVE_SPEED)
+
+def relativeMove(x, y):
+    pyautogui.moveRel(x, y)

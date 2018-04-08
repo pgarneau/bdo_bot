@@ -23,6 +23,24 @@ def findCoords(material):
 
         return find(gameImage2, template)
 
+def isProcessing():
+    pyautogui.screenshot('images/game_screenshot.png')
+
+    gameImage = cv2.imread('images/game_screenshot.png', 0)
+    gameImage2 = gameImage.copy()
+
+    template = cv2.imread('images/progress_bar.png', 0)
+    w, h = template.shape[::-1]
+
+    res = cv2.matchTemplate(gameImage2, template, eval('cv2.TM_SQDIFF_NORMED'))
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+
+    print(min_val)
+
+    if min_val > 0.11:
+        return False
+    else:
+        return True
 
 def rejectOutliers(data, m=2.):
     d = np.abs(data - np.median(data))
