@@ -5,8 +5,19 @@ keys = {
     'esc': 0x01,
     'r': 0x13,
     'f': 0x21,
+    'i': 0x17,
     'ctrl': 0x1D,
-    'space': 0x39
+    'space': 0x39,
+    '0': 0x0B,
+    '1': 0x02,
+    '2': 0x03,
+    '3': 0x04,
+    '4': 0x05,
+    '5': 0x06,
+    '6': 0x07,
+    '7': 0x08,
+    '8': 0x09,
+    '9': 0x0A,
 }
 
 SendInput = ctypes.windll.user32.SendInput

@@ -22,6 +22,33 @@ def keepActive():
     mouse.relativeMove(5, 0)
     mouse.relativeMove(-5, 0)
 
+def cancelProcessing():
+    keyboard.press('space')
+    time.sleep(1)
+
+def feedWorkers():
+    mouse.move(finder.findCoords('beer'))
+    mouse.rightClick()
+    keyboard.press('3')
+    keyboard.press('0')
+    keyboard.press('0')
+    keyboard.press('space')
+    keyboard.press('esc')
+    keyboard.press('esc')
+    keyboard.press('i')
+    mouse.move(finder.findCoords('beer'))
+    mouse.rightClick()
+    mouse.move(finder.findButton('recover_all'))
+    mouse.leftClick()
+    mouse.move(finder.findButton('confirm'))
+    mouse.leftClick()
+    mouse.move(finder.findButton('repeat_all'))
+    mouse.leftClick()
+    keyboard.press('esc')
+    time.sleep(1)
+    openWarehouse()
+    store()
+
 def store():
     mouse.move(coordinates.INV_SLOT_1)
     mouse.rightClick()

@@ -10,7 +10,16 @@ priority = ['fir', 'fir_plank', 'birch', 'birch_plank', 'cedar', 'cedar_plank', 
             'zinc', 'tin', 'copper', ['copper_shard', 'zinc_shard'], ['copper_shard', 'tin_shard'], 'iron', ['iron_shard', 'coal']]
 # priority = ['zinc', 'tin', 'copper', ['copper_shard', 'zinc_shard']]
 
+def heat(element):
+    coords = finder.findCoords(element)
+    input.heat(coords)
+
+def chop(element):
+    coords = finder.findCoords(element)
+    input.chop(coords)
+
 def start():
+    initTime = time.clock()
     input.openWarehouse()
 
     while True:
@@ -19,30 +28,41 @@ def start():
 
             if element in chopping:
                 print("PROCESSING: " + element)
-
                 try:
-                    coords = finder.findCoords(element)
+                    chop(element)
                 except ValueError:
                     continue
-
-                input.chop(coords)
 
             else:
                 if type(element) is list:
                     print("PROCESSING: " + element[0] + " AND " + element[1])
                 else:
                     print("PROCESSING: " + element)
-            
+                
                 try:
-                    coords = finder.findCoords(element)
+                    heat(element)
                 except ValueError:
                     continue
-
-                input.heat(coords)
-
+            
             time.sleep(1)
             while (finder.isProcessing()):
                 input.keepActive()
+
+                currentTime = time.clock()
+                if currentTime - initTime > 10800:
+                    initTime = currentTime
+
+                    input.cancelProcessing()
+                    input.openWarehouse()
+                    input.store()
+                    input.feedWorkers()
+                    input.openProcessing()
+
+                    if element in chopping:
+                        chop(element)
+                    else:
+                        heat(element)
+
                 time.sleep(5)
 
             input.openWarehouse()
