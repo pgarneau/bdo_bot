@@ -34,28 +34,28 @@ def store():
     keyboard.press('space')
 
 def openWarehouse():
-    keyboard.press('esc')
-    keyboard.press('esc')
+    time.sleep(0.3)
     keyboard.press('r')
-    mouse.move(finder.findCoords('warehouse'))
+    time.sleep(0.2)
+    mouse.move(finder.findButton('warehouse'))
     mouse.leftClick()
 
 def openProcessing():
-    mouse.move(finder.findCoords('process'))
+    mouse.move(finder.findButton('process'))
     mouse.leftClick()
 
 def chop(coords):
-    mouse.move(finder.findCoords('chopping'))
+    mouse.move(finder.findButton('chopping'))
     mouse.leftClick()
 
     mouse.move(coords)
     mouse.rightClick()
 
-    mouse.move(finder.findCoords('process_start'))
+    mouse.move(finder.findButton('process_start'))
     mouse.leftClick()
 
 def heat(coords):
-    mouse.move(finder.findCoords('heating'))
+    mouse.move(finder.findButton('heating'))
     mouse.leftClick()
 
     if type(coords) is list:
@@ -67,5 +67,5 @@ def heat(coords):
         mouse.move(coords)
         mouse.rightClick()
 
-    mouse.move(finder.findCoords('process_start'))
+    mouse.move(finder.findButton('process_start'))
     mouse.leftClick()

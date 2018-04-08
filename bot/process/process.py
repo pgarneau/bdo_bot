@@ -29,6 +29,7 @@ def start():
             coords = finder.findCoords(element)
             input.heat(coords)
 
+        time.sleep(1)
         while (finder.isProcessing()):
             input.keepActive()
             time.sleep(5)

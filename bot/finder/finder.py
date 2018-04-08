@@ -43,6 +43,7 @@ def isProcessing():
         return True
 
 def rejectOutliers(data):
+    print(data)
     elements = np.array(data)
     mean = np.mean(elements, axis=0)
     sd = np.std(elements, axis=0)
@@ -51,6 +52,23 @@ def rejectOutliers(data):
     finalList = [x for x in finalList if (x <= mean + 1 * sd)]
 
     return finalList
+
+def findButton(target):
+    pyautogui.screenshot('images/game_screenshot.png')
+
+    gameImage = cv2.imread('images/game_screenshot.png', 0)
+    gameImage2 = gameImage.copy()
+
+    template = cv2.imread('images/' + target + '.png', 0)
+    w, h = template.shape[::-1]
+
+    res = cv2.matchTemplate(gameImage2, template, eval('cv2.TM_CCOEFF_NORMED'))
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+
+    print(max_val)
+
+    return [max_loc[0] + w/2, max_loc[1] + h/2]
+    
 
 def find(zone, target):
     xResults = []
