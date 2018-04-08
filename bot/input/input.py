@@ -1,26 +1,65 @@
+import time
+
 import pyautogui
 
 import coordinates
+import keyboard
+import mouse
 
-MOVE_SPEED = 0.5
 
 def init():
-    pyautogui.PAUSE = 2
-
-def move(x, y):
-    pyautogui.moveTo(x, y, 0.6)
-
-def testMove():
-    pyautogui.moveTo(coordinates.TEST[0], coordinates.TEST[1], MOVE_SPEED)
+    pyautogui.PAUSE = 0.8
+    
+def getCoords():
+    while True:
+        x, y = pyautogui.position()
+        positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
+        print(positionStr + '\n')
+        time.sleep(0.5)
 
 def store():
-    # Move to 1st slot in inventory
-    # Right click
-    # Press f
-    # Press space
+    mouse.move(coordinates.INV_SLOT_1)
+    mouse.rightClick()
+    keyboard.press('f')
+    keyboard.press('space')
 
-    # Move to 2nd slot
-    # Right click
-    # f 
-    # space
-    print('placeholder')
+    mouse.move(coordinates.INV_SLOT_2)
+    mouse.rightClick()
+    keyboard.press('f')
+    keyboard.press('space')
+
+def openWarehouse():
+    keyboard.press('esc')
+    keyboard.press('esc')
+    keyboard.press('r')
+    mouse.move(coordinates.WAREHOUSE)
+    mouse.leftClick()
+
+def openProcessing():
+    mouse.move(coordinates.PROCESS)
+    mouse.leftClick()
+
+def chop(coords):
+    mouse.move(coordinates.CHOPPING)
+    mouse.leftClick()
+
+    mouse.move(coords)
+    mouse.rightClick()
+
+    mouse.move(coordinates.START_PROCESS)
+    mouse.leftClick()
+    time.sleep(3)
+    keyboard.press('space')
+
+def heat(*args):
+    mouse.move(coordinates.HEATING)
+    mouse.leftClick()
+
+    for coords in args:
+        mouse.move(coords)
+        mouse.rightClick()
+
+    mouse.move(coordinates.START_PROCESS)
+    mouse.leftClick()
+    time.sleep(3)
+    keyboard.press('space')

@@ -12,3 +12,6 @@ def displayBDO():
         ShowWindow(w.wrapper_object(), 9) # restore window state
     else:
         SetForegroundWindow(w.wrapper_object()) #bring to front
+
+    w.SetFocus()
+    # w.TypeKeys("{CTRL}")

@@ -1,12 +1,15 @@
 from input import input
-from mat_finder import finder
+from finder import finder
 from window import window
+from process import process
 
 def main():
     input.init()
-    # window.displayBDO()
-    # input.testMove()
+    window.displayBDO()
+    # input.openWarehouse()
+    # input.store()
     #finder.detectionTest()
+    process.start()
 
     print("Hello")
 
