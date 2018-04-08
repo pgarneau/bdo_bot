@@ -53,11 +53,16 @@ def chop(coords):
     mouse.move(coordinates.START_PROCESS)
     mouse.leftClick()
 
-def heat(*args):
+def heat(coords):
     mouse.move(coordinates.HEATING)
     mouse.leftClick()
 
-    for coords in args:
+    if type(coords) is list:
+        for coord in coords:
+            mouse.move(coord)
+            mouse.rightClick()
+
+    else:
         mouse.move(coords)
         mouse.rightClick()
 

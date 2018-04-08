@@ -21,7 +21,11 @@ def start():
             input.chop(coords)
 
         else:
-            print("PROCESSING: " + element)
+            if type(element) is list:
+                print("PROCESSING: " + element[0] + " AND " + element[1])
+            else:
+                print("PROCESSING: " + element)
+            
             coords = finder.findCoords(element)
             input.heat(coords)
 
