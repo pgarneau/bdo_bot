@@ -6,8 +6,6 @@ from process import process
 def main():
     input.init()
     window.displayBDO()
-    # input.openWarehouse()
-    # input.store()
     #finder.detectionTest()
     process.start()
 

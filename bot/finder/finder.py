@@ -36,7 +36,7 @@ def find(zone, target):
 
     w, h = target.shape[::-1]
 
-    methods = ['cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+    methods = ['cv2.TM_CCOEFF_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
 
     for meth in methods:
         method = eval(meth)
@@ -57,13 +57,13 @@ def find(zone, target):
 
 
 def detectionTest():
-    img = cv2.imread('images/bdo_mats.png',0)
+    img = cv2.imread('images/game_screenshot.png',0)
     img2 = img.copy()
-    template = cv2.imread('images/coal.png',0)
+    template = cv2.imread('images/fir_plank.png',0)
     w, h = template.shape[::-1]
 
     # All the 6 methods for comparison in a list
-    methods = ['cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+    methods = ['cv2.TM_CCOEFF_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
 
     for meth in methods:
         img = img2.copy()
