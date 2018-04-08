@@ -8,31 +8,42 @@ heating = ['iron', ['iron_shard', 'coal'], 'copper', 'tin', 'zinc', ['copper_sha
 
 priority = ['fir', 'fir_plank', 'birch', 'birch_plank', 'cedar', 'cedar_plank', 'maple', 'maple_plank', 'ash', 'ash_plank',
             'zinc', 'tin', 'copper', ['copper_shard', 'zinc_shard'], ['copper_shard', 'tin_shard'], 'iron', ['iron_shard', 'coal']]
+# priority = ['zinc', 'tin', 'copper', ['copper_shard', 'zinc_shard']]
 
 def start():
     input.openWarehouse()
 
-    for element in priority:
-        input.openProcessing()
+    while True:
+        for element in priority:
+            input.openProcessing()
 
-        if element in chopping:
-            print("PROCESSING: " + element)
-            coords = finder.findCoords(element)
-            input.chop(coords)
-
-        else:
-            if type(element) is list:
-                print("PROCESSING: " + element[0] + " AND " + element[1])
-            else:
+            if element in chopping:
                 print("PROCESSING: " + element)
+
+                try:
+                    coords = finder.findCoords(element)
+                except ValueError:
+                    continue
+
+                input.chop(coords)
+
+            else:
+                if type(element) is list:
+                    print("PROCESSING: " + element[0] + " AND " + element[1])
+                else:
+                    print("PROCESSING: " + element)
             
-            coords = finder.findCoords(element)
-            input.heat(coords)
+                try:
+                    coords = finder.findCoords(element)
+                except ValueError:
+                    continue
 
-        time.sleep(1)
-        while (finder.isProcessing()):
-            input.keepActive()
-            time.sleep(5)
+                input.heat(coords)
 
-        input.openWarehouse()
-        input.store()
+            time.sleep(1)
+            while (finder.isProcessing()):
+                input.keepActive()
+                time.sleep(5)
+
+            input.openWarehouse()
+            input.store()

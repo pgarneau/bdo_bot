@@ -3,72 +3,60 @@ import numpy as np
 from matplotlib import pyplot as plt
 import pyautogui
 
-def findCoords(target):
-    results = []
+def getGameImage():
     pyautogui.screenshot('images/game_screenshot.png')
 
     gameImage = cv2.imread('images/game_screenshot.png', 0)
-    gameImage2 = gameImage.copy()
+    return gameImage.copy()
 
-    if type(target) is list:
-        for material in target:
-            template = cv2.imread('images/' + material + '.png', 0)
-
-            results.append(find(gameImage2, template))
-        
-        return results
-
-    else:
-        template = cv2.imread('images/' + target + '.png', 0)
-
-        return find(gameImage2, template)
-
-def isProcessing():
-    pyautogui.screenshot('images/game_screenshot.png')
-
-    gameImage = cv2.imread('images/game_screenshot.png', 0)
-    gameImage2 = gameImage.copy()
-
-    template = cv2.imread('images/progress_bar.png', 0)
+def loadAndFind(target, zone, method):
+    template = cv2.imread('images/' + target + '.png', 0)
     w, h = template.shape[::-1]
 
-    res = cv2.matchTemplate(gameImage2, template, eval('cv2.TM_SQDIFF_NORMED'))
+    res = cv2.matchTemplate(zone, template, eval(method))
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
-    print(min_val)
+    return min_val, max_val, min_loc, max_loc, w, h
+
+def isProcessing():
+    gameImage = getGameImage()
+
+    min_val, _, _, _, _, _ = loadAndFind('progress_bar', gameImage, 'cv2.TM_SQDIFF_NORMED')
+    # print(min_val)
 
     if min_val > 0.11:
         return False
     else:
         return True
 
-def rejectOutliers(data):
-    print(data)
-    elements = np.array(data)
-    mean = np.mean(elements, axis=0)
-    sd = np.std(elements, axis=0)
-
-    finalList = [x for x in data if (x >= mean - 1 * sd)]
-    finalList = [x for x in finalList if (x <= mean + 1 * sd)]
-
-    return finalList
-
 def findButton(target):
-    pyautogui.screenshot('images/game_screenshot.png')
+    gameImage = getGameImage()
 
-    gameImage = cv2.imread('images/game_screenshot.png', 0)
-    gameImage2 = gameImage.copy()
+    for _ in xrange(3):
+        _, max_val, _, max_loc, w, h = loadAndFind(target, gameImage, 'cv2.TM_CCOEFF_NORMED')
+        # print(max_val)
 
-    template = cv2.imread('images/' + target + '.png', 0)
-    w, h = template.shape[::-1]
+        if max_val > 0.9:
+            return [max_loc[0] + w/2, max_loc[1] + h/2]
 
-    res = cv2.matchTemplate(gameImage2, template, eval('cv2.TM_CCOEFF_NORMED'))
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    raise ValueError('Could not find button!')
 
-    print(max_val)
+def findCoords(target):
+    results = []
+    gameImage = getGameImage()
 
-    return [max_loc[0] + w/2, max_loc[1] + h/2]
-    
+    if type(target) is list:
+        for material in target:
+            template = cv2.imread('images/' + material + '.png', 0)
+
+            results.append(find(gameImage, template))
+        
+        return results
+
+    else:
+        template = cv2.imread('images/' + target + '.png', 0)
+
+        return find(gameImage, template)
 
 def find(zone, target):
     xResults = []
@@ -78,27 +66,31 @@ def find(zone, target):
 
     methods = ['cv2.TM_CCOEFF_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
 
-    for meth in methods:
-        method = eval(meth)
+    for _ in xrange(3):
+        for meth in methods:
+            method = eval(meth)
 
-        res = cv2.matchTemplate(zone, target, method)
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+            res = cv2.matchTemplate(zone, target, method)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
-        # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
-        if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
-            top_left = min_loc
-        else:
-            top_left = max_loc
+            # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
+            if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
+                top_left = min_loc
+            else:
+                top_left = max_loc
 
-        xResults.append(top_left[0])
-        yResults.append(top_left[1])
-
-    return [np.mean(rejectOutliers(xResults)) + w/2, np.mean(rejectOutliers(yResults)) + h/2]
+            xResults.append(top_left[0])
+            yResults.append(top_left[1])
+        
+        if len(set(xResults)) <= 1 and len(set(yResults)) <= 1:
+            return [xResults[0] + w/2, yResults[0] + h/2]
+    
+    raise ValueError('Could not confirm material location')
 
 def detectionTest():
-    img = cv2.imread('images/game_screenshot.png',0)
+    img = cv2.imread('images/bdo_mats.png',0)
     img2 = img.copy()
-    template = cv2.imread('images/warehouse.png',0)
+    template = cv2.imread('images/maple_plank.png',0)
     w, h = template.shape[::-1]
 
     # All the 6 methods for comparison in a list
@@ -132,3 +124,14 @@ def detectionTest():
         plt.show(block=False)
 
     plt.show()
+
+# def rejectOutliers(data):
+#     print(data)
+#     elements = np.array(data)
+#     mean = np.mean(elements, axis=0)
+#     sd = np.std(elements, axis=0)
+
+#     finalList = [x for x in data if (x >= mean - 1 * sd)]
+#     finalList = [x for x in finalList if (x <= mean + 1 * sd)]
+
+#     return finalList

@@ -36,7 +36,7 @@ def store():
 def openWarehouse():
     time.sleep(0.3)
     keyboard.press('r')
-    time.sleep(0.2)
+    time.sleep(0.3)
     mouse.move(finder.findButton('warehouse'))
     mouse.leftClick()
 
@@ -58,7 +58,7 @@ def heat(coords):
     mouse.move(finder.findButton('heating'))
     mouse.leftClick()
 
-    if type(coords) is list:
+    if type(coords[0]) is list and type(coords[1]) is list:
         for coord in coords:
             mouse.move(coord)
             mouse.rightClick()

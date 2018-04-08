@@ -6,11 +6,9 @@ from process import process
 def main():
     input.init()
     window.displayBDO()
-    #finder.detectionTest()
     process.start()
+    #finder.detectionTest()
     #input.getCoords()
-
-    print("Hello")
 
 if __name__== "__main__":
   main()
