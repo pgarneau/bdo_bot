@@ -18,6 +18,18 @@ def chop(element):
     coords = finder.findCoords(element)
     input.chop(coords)
 
+def feedWorkers(element):
+    input.cancelProcessing()
+    input.openWarehouse()
+    input.store()
+    input.feedWorkers()
+    input.openProcessing()
+
+    if element in chopping:
+        chop(element)
+    else:
+        heat(element)
+
 def start():
     initTime = time.clock()
     input.openWarehouse()
@@ -49,19 +61,9 @@ def start():
                 input.keepActive()
 
                 currentTime = time.clock()
-                if currentTime - initTime > 10800:
+                if currentTime - initTime > 7200: # Every 2 hours
                     initTime = currentTime
-
-                    input.cancelProcessing()
-                    input.openWarehouse()
-                    input.store()
-                    input.feedWorkers()
-                    input.openProcessing()
-
-                    if element in chopping:
-                        chop(element)
-                    else:
-                        heat(element)
+                    feedWorkers(element)
 
                 time.sleep(5)
 
