@@ -75,6 +75,9 @@ def find(zone, target):
 
             # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
             if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
+                if method is cv2.TM_SQDIFF_NORMED:
+                    minimum = min_val
+
                 top_left = min_loc
             else:
                 top_left = max_loc
@@ -83,7 +86,9 @@ def find(zone, target):
             yResults.append(top_left[1])
         
         if len(set(xResults)) <= 1 and len(set(yResults)) <= 1:
-            return [xResults[0] + w/2, yResults[0] + h/2]
+            print(minimum)
+            if minimum < 0.022:
+                return [xResults[0] + w/2, yResults[0] + h/2]
     
     raise ValueError('Could not confirm material location')
 

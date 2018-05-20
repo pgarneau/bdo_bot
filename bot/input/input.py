@@ -96,3 +96,7 @@ def heat(coords):
 
     mouse.move(finder.findButton('process_start'))
     mouse.leftClick()
+
+def resetBot():
+    keyboard.press('escape')
+    keyboard.press('escape')
